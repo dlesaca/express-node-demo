@@ -2,25 +2,27 @@
 //application setup
 var express = require('express');
 var path = require('path');
+var bodyParser = require('body-parser');
 var app = express();
 var port = 3000;
 
-//view directory setup
-app.set('views', path.join(__dirname, 'views'));
-//view engine setup
-app.set('view engine', 'jade');
-
-//index get request
-app.get('/', function(req, res){
-	res.render('index');
-});
-
-app.get('/about', function(req, res){
-	res.render('about');
-});
+app.use(bodyParser.json());
 
 //static services
 app.use(express.static(path.join(__dirname, 'public')));
+
+//index get request
+app.get('/', function(req, res){
+	res.respond('index');
+});
+
+app.get('/users', function(req, res) {
+	var users = ['Bob', 'Larry', 'Joe'];
+});
+
+app.post('/users', function(req, res) {
+	console.log(req.body);
+});
 
 //app listener
 app.listen(port, function(){
